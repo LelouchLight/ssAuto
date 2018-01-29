@@ -31,27 +31,43 @@
     if (document.getElementsByClassName("order-detail").length > 0 && notSet) {
         var btnCount = document.getElementsByClassName("btn-ship").length;
 
-        document.getElementsByClassName("btn-ship")[btnCount - 1].addEventListener("click", function () {
-            function  checkLabelSuccess() {
-                var j = 0;
+        document.getElementsByClassName("btn-ship")[btnCount - 1].addEventListener("click", function() {
+            var i = 0;
 
+            function  checkModalSuccess() {
                 setTimeout(function(){
-                    if (document.getElementsByClassName("btn-ship").length !== btnCount) {
-                        document.getElementsByClassName("lnk-scan-barcode")[0].click();
-                    } else if (j >= 120) {
+                    if (document.getElementsByClassName("btn-ship").length === (btnCount + 1)) {
+                        document.getElementsByClassName("btn-ship")[btnCount].addEventListener("click", function () {
+                            function  checkLabelSuccess() {
+                                var j = 0;
+
+                                setTimeout(function(){
+                                    if (document.getElementsByClassName("btn-ship").length !== (btnCount + 1)) {
+                                        document.getElementsByClassName("lnk-scan-barcode")[0].click();
+                                    } else if (j >= 120) {
+                                        return;
+                                    }
+                                    else {
+                                        j++;
+                                        checkLabelSuccess();
+                                    }
+                                }, 50);
+                            }
+                            checkLabelSuccess();
+                        });
+                    } else if (i >= 120) {
+                        i++;
                         return;
                     }
                     else {
-                        j++;
-                        checkLabelSuccess();
+                        checkModalSuccess();
                     }
                 }, 50);
             }
-            checkLabelSuccess();
+            checkModalSuccess();
         });
 
         notSet = false;
-        alert("event set");
     } else if (document.getElementsByClassName("order-detail").length === 0) {
         notSet = true;
     }

@@ -14,6 +14,17 @@
     // Your code here...
     var notSet = true;
 
+    function scanBoxOpen() {
+        var hThrees = document.getElementsByTagName("h3");
+
+        for (var i = 0; i < hThrees.length; i++) {
+            if (hThrees[i].innerHTML === "Barcode Scan Search") {
+                return true;
+            }
+        }
+        return false;
+    }
+
     var tag = setInterval(function(){
         if(document.getElementsByClassName("track-PrintPackingSlips").length > 0) {
                  document.getElementsByClassName("track-PrintPackingSlips")[0].addEventListener("click", function() {
@@ -24,6 +35,7 @@
             document.getElementById("order-tray").style.visibility = "hidden";
             document.getElementById("topnav").style.visibility = "hidden";
             document.getElementsByClassName("btn-drawer-toggle")[0].style.visibility = "hidden";
+            document.getElementsByClassName("tray-content")[0].style.visibility = "hidden";
         }
     }, 1000);
 
@@ -70,6 +82,10 @@
         notSet = false;
     } else if (document.getElementsByClassName("order-detail").length === 0) {
         notSet = true;
+    }
+
+    if (document.getElementsByClassName("order-detail").length === 0 && !scanBoxOpen()) {
+        document.getElementsByClassName("lnk-scan-barcode")[0].click();
     }
 }, 250);
 })();
